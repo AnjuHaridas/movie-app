@@ -1,5 +1,5 @@
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@material-ui/core'
-import axios from 'axios'
+import axios, { Axios } from 'axios'
 import { useState } from 'react'
 import useForm from './Read'
 
@@ -18,6 +18,17 @@ const ViewMovies = () => {
            }
        )
     }
+            
+        const btnDelete=(id)=>{
+            const data={"_id":id}
+            axios.post("http://localhost:8080/delete",data).then(
+                (response)=>{
+                    console.log(response.data.data)
+                    alert(response.data.status)
+                }
+            ) 
+        }
+
           return (
         <div>
             <Typography variant="h6" color="primary">SEARCH A MOVIE HERE</Typography>
@@ -35,7 +46,7 @@ const ViewMovies = () => {
                        <TableCell>Camera</TableCell>
                        <TableCell>Producer</TableCell>
                        <TableCell>Language </TableCell>
-                       
+                       <TableCell>Operation</TableCell>
                    </TableRow>
                </TableHead>
 
@@ -50,7 +61,7 @@ const ViewMovies = () => {
                            <TableCell> {value.camera} </TableCell>
                            <TableCell> {value.producer} </TableCell>
                            <TableCell> {value.language} </TableCell>
-                           <TableCell> <Button variant="contained" color="primary">DELETE</Button> </TableCell>
+                           <TableCell> <Button onClick={()=>{btnDelete(value._id)}} variant="contained" color="primary">DELETE</Button> </TableCell>
                        </TableRow>
                    })}
                </TableBody>
